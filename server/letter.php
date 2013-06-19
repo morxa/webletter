@@ -1,4 +1,28 @@
 <?php
+$template_dir = 'template';
+if (!is_dir($template_dir)) {
+  exit("templatedir " . $template_dir . " not found");
+}
+
+// create tmp dir
+$dir = sys_get_temp_dir() . "/" . "webletter-" . mt_rand();
+mkdir($dir) or exit("failed to make tmpdir");
+
+// copy all files to tmpdir
+if ($handle = opendir($template_dir)) {
+  while (false !== ($entry = readdir($handle))) {
+    if ($entry != "." && $entry != "..") {
+      copy($template_dir . "/" . $entry, $dir . "/" . $entry );
+    }
+  }
+  closedir($handle);
+} else {
+  exit("failed to copy template dir");
+}
+
+// switch to tmpdir
+chdir($dir) or exit("failed to chdir");
+//
 $template_file = 'template.tex';
 if (!file_exists($template_file)) {
   exit(1);
@@ -14,9 +38,6 @@ foreach($_GET as $placeholder=>$replacement) {
   $template = preg_replace("/". preg_quote("token-" . $placeholder) . "/", preg_quote($replacement), $template);
 }
 echo "$template";
-$dir = sys_get_temp_dir() . "/" . "webletter-" . mt_rand();
-mkdir($dir) or exit("failed to make tmpdir");
-chdir($dir) or exit("failed to chdir");
 $filebase = "letter";
 $srcfile = $filebase . ".tex";
 $handle = fopen($srcfile, "w") or die("failed to open srcfile");
