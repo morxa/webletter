@@ -37,7 +37,6 @@ foreach($_GET as $placeholder=>$replacement) {
   echo "replace '$placeholder' with '$replacement'<br />";
   $template = preg_replace("/". preg_quote("token-" . $placeholder) . "/", preg_quote($replacement), $template);
 }
-echo "$template";
 $filebase = "letter";
 $srcfile = $filebase . ".tex";
 $handle = fopen($srcfile, "w") or die("failed to open srcfile");
