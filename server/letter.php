@@ -66,10 +66,6 @@ if (file_exists($outfile)) {
   readfile($outfile);
   unlink($outfile);
   exit;
-    $response=$outfile;
-}
-else {
-  $response="FILE_NOT_EXISTENT";
 }
 $logfile = $filebase . ".log";
 $auxfile = $filebase . ".aux";
@@ -80,5 +76,4 @@ if (file_exists($auxfile)) {
   unlink($auxfile) or exit("failed to remove aux file");
 }
 //rmdir($dir) or exit("failed to remove dir");
-echo $dir . "/" . $response;
 ?>
