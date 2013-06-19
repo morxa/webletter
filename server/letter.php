@@ -59,7 +59,6 @@ if (file_exists($outfile)) {
   flush();
   readfile($outfile);
   unlink($outfile);
-  exit;
 }
 $logfile = $filebase . ".log";
 $auxfile = $filebase . ".aux";
