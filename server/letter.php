@@ -50,7 +50,6 @@ if ($ret != 0) {
     echo "$line<br />";
   }
 }
-unlink($srcfile);
 if (file_exists($outfile)) {
   //echo "writing file";
   header('Content-Type: application/pdf');
@@ -58,15 +57,19 @@ if (file_exists($outfile)) {
   ob_clean();
   flush();
   readfile($outfile);
-  unlink($outfile);
 }
-$logfile = $filebase . ".log";
-$auxfile = $filebase . ".aux";
-if (file_exists($logfile)) {
-  unlink($logfile) or exit("failed to remove log file");
+
+// remove all files from tmpdir
+// then remove tmpdir
+if ($handle = opendir($dir)) {
+  while (false !== ($entry = readdir($handle))) {
+    if ($entry != "." && $entry != "..") {
+      unlink("$dir/$entry") or exit("couldn't unlink $dir/$entry");
+    }
+  }
+  closedir($handle);
+  rmdir($dir) or exit("couldn't unlink $dir");
+} else {
+  exit("couldn't unlink $dir; $dir isn't readable");
 }
-if (file_exists($auxfile)) {
-  unlink($auxfile) or exit("failed to remove aux file");
-}
-//rmdir($dir) or exit("failed to remove dir");
 ?>
