@@ -31,8 +31,6 @@ $template = file_get_contents($template_file);
 if ($template == FALSE)
   exit("couldn't read " . $template_file);
 foreach($_GET as $placeholder=>$replacement) {
-//  if ($placeholder == "" || $replacement == "")
-//    continue;
   $replacement = preg_replace("/\\\\/", "", $replacement);
   echo "replace '$placeholder' with '$replacement'<br />";
   $template = preg_replace("/". preg_quote("token-" . $placeholder) . "/", preg_quote($replacement), $template);
