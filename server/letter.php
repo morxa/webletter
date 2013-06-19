@@ -53,14 +53,8 @@ if ($ret != 0) {
 unlink($srcfile);
 if (file_exists($outfile)) {
   //echo "writing file";
-  header('Content-Description: File Transfer');
   header('Content-Type: application/pdf');
   header('Content-Disposition: attachment; filename='.basename($outfile));
-  header('Content-Transfer-Encoding: binary');
-  header('Expires: 0');
-  header('Cache-Control: must-revalidate');
-  header('Pragma: public');
-  header('Content-Length: ' . filesize($outfile));
   ob_clean();
   flush();
   readfile($outfile);
