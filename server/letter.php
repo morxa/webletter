@@ -44,9 +44,11 @@ $handle = fopen($srcfile, "w") or die("failed to open srcfile");
 fwrite($handle, $template);
 fclose($handle);
 $outfile = $filebase . ".pdf";
-exec("pdflatex $srcfile", $output);
-foreach ($output as $i => $line) {
-  echo "$line<br />";
+exec("pdflatex $srcfile", $output, $ret);
+if ($ret != 0) {
+  foreach ($output as $i => $line) {
+    echo "$line<br />";
+  }
 }
 unlink($srcfile);
 if (file_exists($outfile)) {
