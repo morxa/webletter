@@ -52,7 +52,7 @@ unlink($srcfile);
 if (file_exists($outfile)) {
   //echo "writing file";
   header('Content-Description: File Transfer');
-  header('Content-Type: application/octet-stream');
+  header('Content-Type: application/pdf');
   header('Content-Disposition: attachment; filename='.basename($outfile));
   header('Content-Transfer-Encoding: binary');
   header('Expires: 0');
