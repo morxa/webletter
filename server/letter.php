@@ -25,11 +25,11 @@ chdir($dir) or exit("failed to chdir");
 //
 $template_file = 'template.tex';
 if (!file_exists($template_file)) {
-  exit(1);
+  exit($template_file . " not found");
 }
 $template = file_get_contents($template_file);
 if ($template == FALSE)
-  exit("template not found");
+  exit("couldn't read " . $template_file);
 foreach($_GET as $placeholder=>$replacement) {
 //  if ($placeholder == "" || $replacement == "")
 //    continue;
