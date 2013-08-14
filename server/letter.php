@@ -1,5 +1,8 @@
 <?php
 $template_dir = 'template';
+$latex_chars = array('/\\\\/', '/&/', '/%/', '/\\$/', '/#/', '/_/', '/{/', '/}/', '/~/', '/\\^/');
+
+$latex_replacements = array('\\\\textbackslash', '\\\\&', '\\\\%', '\\\\$', '\\\\#', '\\\\_', '\\\\\{', '\\\\\}', '\\\\textasciitilde', '\\\\textasciicircum');
 if (!is_dir($template_dir)) {
   exit("templatedir " . $template_dir . " not found");
 }
@@ -31,7 +34,8 @@ $template = file_get_contents($template_file);
 if ($template == FALSE)
   exit("couldn't read " . $template_file);
 foreach($_POST as $placeholder=>$replacement) {
-  $replacement = preg_replace("/\\\\/", "", $replacement);
+  // escape all latex characters
+  $replacement = preg_replace($latex_chars, $latex_replacements, $replacement);
   echo "replace '$placeholder' with '$replacement'<br />";
   $template = preg_replace("/". preg_quote("token-" . $placeholder) . "/", preg_quote($replacement), $template);
 }
