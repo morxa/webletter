@@ -1,5 +1,5 @@
 <?php
-$template_dir = 'template';
+require 'settings.php';
 $latex_chars = array('/\\\\/', '/&/', '/%/', '/\\$/', '/#/', '/_/', '/{/', '/}/', '/~/', '/\\^/');
 
 $latex_replacements = array('\\\\textbackslash', '\\\\&', '\\\\%', '\\\\$', '\\\\#', '\\\\_', '\\\\\{', '\\\\\}', '\\\\textasciitilde', '\\\\textasciicircum');
@@ -45,7 +45,7 @@ $handle = fopen($srcfile, "w") or die("failed to open srcfile");
 fwrite($handle, $template);
 fclose($handle);
 $outfile = $filebase . ".pdf";
-exec("pdflatex $srcfile", $output, $ret);
+exec("$compiler $srcfile", $output, $ret);
 if ($ret != 0) {
   foreach ($output as $i => $line) {
     echo "$line<br />";
