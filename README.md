@@ -4,6 +4,8 @@ Webletter is a simple tool to create letters from tex templates.
 
 This is still under development, this means many things won't work as you'd expect, e.g. the path to the php script is hardcoded.
 
+A demo is available on http://halnt.dyndns.org/till/webletter/client/ .
+
 Any patches, bug reports or pull requests are welcome.
 
 Installation
