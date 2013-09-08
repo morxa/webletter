@@ -37,7 +37,7 @@ foreach($_POST as $placeholder=>$replacement) {
   // escape all latex characters
   $replacement = preg_replace($latex_chars, $latex_replacements, $replacement);
   echo "replace '$placeholder' with '$replacement'<br />";
-  $template = preg_replace("/". preg_quote("token-" . $placeholder) . "/", $replacement, $template);
+  $template = preg_replace("/". preg_quote($placeholder) . "/", $replacement, $template);
 }
 $filebase = "letter";
 $srcfile = $filebase . ".tex";
