@@ -36,6 +36,12 @@ if ($template == FALSE)
 foreach($_POST as $placeholder=>$replacement) {
   // remove all white spaces and new lines from the right side of the placeholder to prevent multiple-line placeholders (potential security issue)
   $placeholder = rtrim($placeholder);
+  // only allow placeholders starting with $tokenstring or $optstring
+  $tokenstring = "token-";
+  $optstring = "%opt-token-";
+  if (substr_compare($placeholder, $tokenstring, 0, strlen($tokenstring)) != 0 && substr_compare($placeholder, $optstring, 0, strlen($optstring)) != 0) {
+    continue;
+  }
   // escape all latex characters
   $replacement = preg_replace($latex_chars, $latex_replacements, $replacement);
   echo "replace '$placeholder' with '$replacement'<br />";
