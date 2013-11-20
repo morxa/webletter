@@ -49,7 +49,7 @@ foreach($_POST as $placeholder=>$replacement) {
   // escape all latex characters
   $replacement = preg_replace($latex_chars, $latex_replacements, $replacement);
   $count=0;
-  $template = preg_replace("/". preg_quote($placeholder) . "/", $replacement, $template, -1, $count);
+  $template = preg_replace("/". preg_quote($placeholder) . "\b/", $replacement, $template, -1, $count);
   echo "replaced '$placeholder' with '$replacement' $count times<br />";
 }
 $filebase = "letter";
