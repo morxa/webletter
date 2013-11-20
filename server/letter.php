@@ -39,8 +39,8 @@ foreach($_POST as $placeholder=>$replacement) {
   $placeholder = rtrim($placeholder);
   // only allow placeholders starting with $tokenstring or $optstring or $noptstring
   $tokenstring = "token-";
-  $optstring = "%opt-token-";
-  $noptstring = "%nopt-token-";
+  $optstring = "%opt-";
+  $noptstring = "%nopt-";
   if (substr_compare($placeholder, $tokenstring, 0, strlen($tokenstring)) != 0
       && substr_compare($placeholder, $optstring, 0, strlen($optstring)) != 0
       && substr_compare($placeholder, $noptstring, 0, strlen($noptstring)) != 0 ) {
