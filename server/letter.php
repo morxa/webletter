@@ -34,7 +34,8 @@ $template = file_get_contents($template_file);
 if ($template == FALSE)
   exit("couldn't read " . $template_file);
 foreach($_POST as $placeholder=>$replacement) {
-  // remove all white spaces and new lines from the right side of the placeholder to prevent multiple-line placeholders (potential security issue)
+  // remove all white spaces and new lines from the right side of the placeholder
+  // to prevent multiple-line placeholders (potential security issue)
   $placeholder = rtrim($placeholder);
   // only allow placeholders starting with $tokenstring or $optstring or $noptstring
   $tokenstring = "token-";
