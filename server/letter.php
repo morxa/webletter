@@ -43,7 +43,7 @@ foreach($_POST as $placeholder=>$replacement) {
   $noptstring = "%nopt-token-";
   if (substr_compare($placeholder, $tokenstring, 0, strlen($tokenstring)) != 0
       && substr_compare($placeholder, $optstring, 0, strlen($optstring)) != 0
-      && substr_compare($placeholder, $noptstring, 0, strlen($optstring)) != 0 ) {
+      && substr_compare($placeholder, $noptstring, 0, strlen($noptstring)) != 0 ) {
     continue;
   }
   // escape all latex characters
