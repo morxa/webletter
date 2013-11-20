@@ -48,8 +48,9 @@ foreach($_POST as $placeholder=>$replacement) {
   }
   // escape all latex characters
   $replacement = preg_replace($latex_chars, $latex_replacements, $replacement);
-  echo "replace '$placeholder' with '$replacement'<br />";
-  $template = preg_replace("/". preg_quote($placeholder) . "/", $replacement, $template);
+  $count=0;
+  $template = preg_replace("/". preg_quote($placeholder) . "/", $replacement, $template, -1, $count);
+  echo "replaced '$placeholder' with '$replacement' $count times<br />";
 }
 $filebase = "letter";
 $srcfile = $filebase . ".tex";
