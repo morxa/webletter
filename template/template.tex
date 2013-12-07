@@ -21,17 +21,19 @@
 %---------------------------------------------------------------------------
 % Briefkopf und Anschrift
    fromalign=left,%%        Plazierung des Briefkopfs
-   fromphone=token-togglefromphone,%%           Telefonnummer im Absender
+   fromphone=off,%%           Telefonnummer im Absender
    fromrule=off,%%           Linie im Absender (aftername, afteraddress)
    fromfax=off,%%            Faxnummer
    fromemail=off,%%          Emailadresse
    fromurl=off,%%            Homepage
-   fromlogo=token-togglefromlogo,%%           Firmenlogo
+   %opt-logo fromlogo=on,%%           Firmenlogo
+   %nopt-logo fromlogo=off,%%           Firmenlogo
    addrfield=on,%%           Adressfeld fuer Fensterkuverts
    backaddress=on,%%          ...und Absender im Fenster
    subject=beforeopening,%%  Plazierung der Betreffzeile
    locfield=narrow,%%        zusaetzliches Feld fuer Absender
-   foldmarks=token-folding,%%           Faltmarken setzen
+   %opt-folding foldmarks=on,%%           Faltmarken setzen
+   %nopt-folding foldmarks=off,%%           Faltmarken setzen
    numericaldate=off,%%      Datum numerisch ausgeben
    refline=narrow,%%         Geschaeftszeile im Satzspiegel
 %---------------------------------------------------------------------------
@@ -74,12 +76,12 @@
 %\makeatother
 %---------------------------------------------------------------------------
 % Absender
-\setkomavar{fromname}{token-from-name}
-%opt-token-from-street\setkomavar{fromaddress}{token-from-street\\token-from-zip token-from-city}
-%nopt-token-from-street\setkomavar{fromaddress}{token-from-zip token-from-city}
-\setkomavar{fromphone}{token-from-phone}
+\setkomavar{fromname}{token-fromname}
+%opt-fromstreet \setkomavar{fromaddress}{token-fromstreet\\token-fromzip token-fromcity}
+%nopt-fromstreet \setkomavar{fromaddress}{token-fromzip token-fromcity}
+\setkomavar{fromphone}{token-fromphone}
 \renewcommand{\phonename}{Telefon}
-%\setkomavar{fromemail}{token-from-email}
+%\setkomavar{fromemail}{token-fromemail}
 \setkomavar{backaddressseparator}{. }
 \setkomavar{signature}{token-from-name}
 %\setkomavar{frombank}{}
@@ -92,7 +94,7 @@
 %\firstfoot{Fuﬂzeile}
 %---------------------------------------------------------------------------
 % Geschaeftszeilenfelder
-\setkomavar{place}{token-from-city}
+\setkomavar{place}{token-fromcity}
 \setkomavar{placeseparator}{, den }
 \setkomavar{date}{\today}
 %\setkomavar{yourmail}{1. 1. 2003}%% 'Ihr Schreiben...'
@@ -111,13 +113,13 @@
 % Seitenstil
 \pagestyle{plain}%% keine Header in der Kopfzeile
 %---------------------------------------------------------------------------
-\begin{letter}{token-to-name\\token-to-street\\token-to-zip token-to-city}
+\begin{letter}{token-toname\\token-tostreet\\token-tozip token-tocity}
 %---------------------------------------------------------------------------
 % Weitere Optionen
 \KOMAoptions{%%
 }
 %---------------------------------------------------------------------------
-%opt-token-subject\setkomavar{subject}{token-subject}
+%opt-subject \setkomavar{subject}{token-subject}
 %---------------------------------------------------------------------------
 \opening{token-opening}
 
