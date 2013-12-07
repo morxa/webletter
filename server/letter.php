@@ -59,11 +59,16 @@ fwrite($handle, $template);
 fclose($handle);
 $outfile = $filebase . ".pdf";
 exec("$compiler $srcfile", $output, $ret);
-if ($ret != 0) {
+if ($ret != 0 || $debugging) {
   foreach ($output as $i => $line) {
     echo "$line<br />";
   }
 }
+
+if ($debugging) {
+  exit("debugging. exit. Please remember to delete temporary files manually");
+}
+
 if (file_exists($outfile)) {
   //echo "writing file";
   header('Content-Type: application/pdf');
