@@ -46,6 +46,9 @@
 \usepackage[utf8]{inputenc}
 \usepackage{url}
 \usepackage{graphicx}
+%--------------------------------------------------------------------------
+% LetterOptions
+\LoadLetterOption{letter}
 %---------------------------------------------------------------------------
 % Fonts
 %\setkomafont{fromname}{\sffamily \LARGE}
@@ -83,7 +86,12 @@
 \renewcommand{\phonename}{Telefon}
 %\setkomavar{fromemail}{token-fromemail}
 \setkomavar{backaddressseparator}{. }
-\setkomavar{signature}{token-from-name}
+
+\renewcommand*{\raggedsignature}{\raggedright}
+\setkomavar{signature}{%
+token-fromname
+%opt-signatureaddition \\token-signatureaddition
+}
 %\setkomavar{frombank}{}
 %\setkomavar{location}{\\[8ex]\raggedleft{\footnotesize{\usekomavar{fromaddress}\\
 %      Telefon:\ usekomavar{fromphone}}}}%% Neben dem Adressfenster
