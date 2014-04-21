@@ -46,11 +46,11 @@ if ($debugging) {
 
 function escape_and_replace($placeholder, $replacement, $template) {
   $latex_chars = array('/\\\\/', '/&/', '/%/', '/\\$/', '/#/', '/_/', '/{/', '/}/', '/~/', '/\\^/');
-  $latex_replacements = array('\\\\textbackslash ', '\\\\& ', '\\\\% ', '\\\\$ ', '\\\\# ', '\\\\_ ', '\\\\\{ ', '\\\\\} ', '\\\\textasciitilde ', '\\\\textasciicircum ');
+  $latex_replacements = array('\\\\textbackslash ', '\\\\&', '\\\\%', '\\\\\\\\$', '\\\\#', '\\\\_', '\\\\\{', '\\\\\}', '\\\\textasciitilde ', '\\\\textasciicircum ');
   $escaped_replacement = preg_replace($latex_chars, $latex_replacements, $replacement);
   $count = 0;
   $res = preg_replace("/" . preg_quote($placeholder) . "\b/", $escaped_replacement, $template, -1, $count);
-  //echo "replaced '$placeholder' $count times<br />";
+  //echo "replaced '$placeholder' with '$escaped_replacement' $count times<br />";
   return $res;
 }
 
