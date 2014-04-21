@@ -122,7 +122,7 @@ if ($debugging) {
 if (file_exists($outfile)) {
   //echo "writing file";
   header('Content-Type: application/pdf');
-  header('Content-Disposition: attachment; filename='.basename($outfile));
+  header('Content-Disposition: inline; filename='.basename($outfile));
   ob_clean();
   flush();
   readfile($outfile);
