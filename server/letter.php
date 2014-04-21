@@ -54,12 +54,9 @@ function escape_and_replace($placeholder, $replacement, $template) {
   return $res;
 }
 
-$replacements = array();
-foreach($request->letters[0]->tokens as $token) {
+function process_token($token, $template) {
   if ($token->isEnabled) {
     if ($token->isOptional) {
-      if ($debugging)
-        echo $token->key . " is optional and enabled.<br />";
       $placeholder = "%opt-" . $token->key;
       $template = escape_and_replace($placeholder, "", $template);
     }
@@ -67,11 +64,37 @@ foreach($request->letters[0]->tokens as $token) {
   }
   else { // !isEnabled
     if ($token->isOptional) {
-      if ($debugging)
-        echo $token->key . " is optional and disabled.<br />";
       $placeholder = "%nopt-" . $token->key;
       $template = escape_and_replace($placeholder, "", $template);
     }
+  }
+  return $template;
+}
+
+$static_tokens = array();
+$dynamic_tokens = array();
+
+foreach($request->tokens as $token) {
+  if ($token->isStatic) {
+    $static_tokens[] = $token;
+  }
+  else {
+    $dynamic_tokens[$token->groupID][] = $token;
+  }
+}
+
+foreach($static_tokens as $token) {
+  $template = process_token($token, $template);
+}
+
+$recipient_placeholder = "%add-recipient-here";
+$recipient_macro = "\serialletter{token-toname}{token-tostreet}{token-tozip}{token-tocity}";
+
+foreach($dynamic_tokens as $recipient) {
+  // don't escape here!
+  $template = preg_replace("/" . preg_quote($recipient_placeholder) . "\b/", $recipient_macro . "\n" . $recipient_placeholder, $template);
+  foreach($recipient as $token) {
+    $template = process_token($token, $template);
   }
 }
 

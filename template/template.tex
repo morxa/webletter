@@ -99,7 +99,7 @@ token-fromname
 %---------------------------------------------------------------------------
 %\firsthead{Frei gestalteter Briefkopf}
 %---------------------------------------------------------------------------
-%\firstfoot{Fußzeile}
+%\firstfoot{FuÃŸzeile}
 %---------------------------------------------------------------------------
 % Geschaeftszeilenfelder
 \setkomavar{place}{token-fromcity}
@@ -112,7 +112,7 @@ token-fromname
 %\setkomavar{phoneseparator}{}
 %---------------------------------------------------------------------------
 % Versendungsart
-%\setkomavar{specialmail}{Einschreiben mit Rückschein}
+%\setkomavar{specialmail}{Einschreiben mit RÃ¼ckschein}
 %---------------------------------------------------------------------------
 % Anlage neu definieren
 \renewcommand{\enclname}{Anlage}
@@ -121,7 +121,10 @@ token-fromname
 % Seitenstil
 \pagestyle{plain}%% keine Header in der Kopfzeile
 %---------------------------------------------------------------------------
-\begin{letter}{token-toname\\token-tostreet\\token-tozip token-tocity}
+\newcommand\serialletter[4]{
+%---------------------------------------------------------------------------
+%\begin{letter}{token-toname\\token-tostreet\\token-tozip token-tocity}
+\begin{letter}{#1\\#2\\#3 #4}
 %---------------------------------------------------------------------------
 % Weitere Optionen
 \KOMAoptions{%%
@@ -140,6 +143,11 @@ token-content
 %\cc{}
 %---------------------------------------------------------------------------
 \end{letter}
+%---------------------------------------------------------------------------
+}
+%---------------------------------------------------------------------------
+%add-recipient-here
+%\serialletter{token-toname}{token-tostreet}{token-tozip}{token-tocity}
 %---------------------------------------------------------------------------
 \end{document}
 %---------------------------------------------------------------------------
