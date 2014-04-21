@@ -1,8 +1,6 @@
 <?php
 require 'settings.php';
-$latex_chars = array('/\\\\/', '/&/', '/%/', '/\\$/', '/#/', '/_/', '/{/', '/}/', '/~/', '/\\^/');
 
-$latex_replacements = array('\\\\textbackslash', '\\\\&', '\\\\%', '\\\\$', '\\\\#', '\\\\_', '\\\\\{', '\\\\\}', '\\\\textasciitilde', '\\\\textasciicircum');
 if (!is_dir($template_dir)) {
   exit("templatedir " . $template_dir . " not found");
 }
@@ -33,25 +31,50 @@ if (!file_exists($template_file)) {
 $template = file_get_contents($template_file);
 if ($template == FALSE)
   exit("couldn't read " . $template_file);
-foreach($_POST as $placeholder=>$replacement) {
-  // remove all white spaces and new lines from the right side of the placeholder
-  // to prevent multiple-line placeholders (potential security issue)
-  $placeholder = rtrim($placeholder);
-  // only allow placeholders starting with $tokenstring or $optstring or $noptstring
-  $tokenstring = "token-";
-  $optstring = "%opt-";
-  $noptstring = "%nopt-";
-  if (substr_compare($placeholder, $tokenstring, 0, strlen($tokenstring)) != 0
-      && substr_compare($placeholder, $optstring, 0, strlen($optstring)) != 0
-      && substr_compare($placeholder, $noptstring, 0, strlen($noptstring)) != 0 ) {
-    continue;
-  }
-  // escape all latex characters
-  $replacement = preg_replace($latex_chars, $latex_replacements, $replacement);
-  $count=0;
-  $template = preg_replace("/". preg_quote($placeholder) . "\b/", $replacement, $template, -1, $count);
-  echo "replaced '$placeholder' with '$replacement' $count times<br />";
+
+$request = json_decode($_POST["q"]);
+if ($debugging) {
+  echo "request:<br />";
+  var_dump($request);
+  echo "<br /><br />letters[0]:<br />";
+  var_dump($request->letters[0]);
+  echo "<br /><br />letters[0]->tokens:<br />";
+  var_dump($request->letters[0]->tokens);
+  echo "<br /><br />";
+  //exit("done");
 }
+
+function escape_and_replace($placeholder, $replacement, $template) {
+  $latex_chars = array('/\\\\/', '/&/', '/%/', '/\\$/', '/#/', '/_/', '/{/', '/}/', '/~/', '/\\^/');
+  $latex_replacements = array('\\\\textbackslash ', '\\\\& ', '\\\\% ', '\\\\$ ', '\\\\# ', '\\\\_ ', '\\\\\{ ', '\\\\\} ', '\\\\textasciitilde ', '\\\\textasciicircum ');
+  $escaped_replacement = preg_replace($latex_chars, $latex_replacements, $replacement);
+  $count = 0;
+  $res = preg_replace("/" . preg_quote($placeholder) . "\b/", $escaped_replacement, $template, -1, $count);
+  //echo "replaced '$placeholder' $count times<br />";
+  return $res;
+}
+
+$replacements = array();
+foreach($request->letters[0]->tokens as $token) {
+  if ($token->isEnabled) {
+    if ($token->isOptional) {
+      if ($debugging)
+        echo $token->key . " is optional and enabled.<br />";
+      $placeholder = "%opt-" . $token->key;
+      $template = escape_and_replace($placeholder, "", $template);
+    }
+    $template = escape_and_replace("token-" . $token->key, $token->value, $template);
+  }
+  else { // !isEnabled
+    if ($token->isOptional) {
+      if ($debugging)
+        echo $token->key . " is optional and disabled.<br />";
+      $placeholder = "%nopt-" . $token->key;
+      $template = escape_and_replace($placeholder, "", $template);
+    }
+  }
+}
+
 $filebase = "letter";
 $srcfile = $filebase . ".tex";
 $handle = fopen($srcfile, "w") or die("failed to open srcfile");
@@ -63,6 +86,10 @@ if ($ret != 0 || $debugging) {
   foreach ($output as $i => $line) {
     echo "$line<br />";
   }
+}
+
+if ($ret) {
+  exit("An error occurred ($ret). No file was created.");
 }
 
 if ($debugging) {
